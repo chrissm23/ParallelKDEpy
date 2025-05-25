@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.12] # test on multiple Python versions
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1️⃣ Install Julia
+      - name: Setup Julia
+        uses: julia-actions/setup-julia@v1
+        with:
+          version: "1.11" # match the version ParallelKDE.jl supports
+      #   Configure SSH for private Julia repo
+      - name: Start ssh-agent and add SHH key
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Install ParallelKDE.jl
+      - name: Install ParallelKDE.jl (via SSH deploy key)
+        run: |
+          julia -e '
+            import Pkg;
+            Pkg.add(
+              PackageSpec(
+          url="git@github.com:chrissm23/ParallelKDE.jl",
+                rev="main"
+              )
+            );
+            Pkg.precompile()
+          '
+
+      # 2️⃣ Setup Python
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
+
+      # 3️⃣ Install your package via Poetry
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry config virtualenvs.create false  # install into the runner’s env
+          poetry install --no-interaction --no-ansi
+
+      # 5️⃣ Run tests
+      - name: Run pytest
+        run: |
+          pytest --maxfail=1 --disable-warnings --quiet --cov=src/parallelkdepy
+
+      # 6️⃣ Upload coverage (optional)
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: htmlcov/
