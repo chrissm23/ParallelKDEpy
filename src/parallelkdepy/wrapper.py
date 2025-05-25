@@ -267,10 +267,11 @@ class DensityEstimation:
             )
         )
 
-    def estimate_density(self) -> None:
+    def estimate_density(self, estimation: str, **kwargs) -> None:
         """
         Executes the density estimation algorithm on the data.
         """
+        core.estimate_density(self._densityestimation_jl, estimation, **kwargs)
 
     def get_density(self) -> np.ndarray:
         """
