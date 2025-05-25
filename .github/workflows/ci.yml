@@ -35,7 +35,7 @@ jobs:
           julia -e '
             import Pkg;
             Pkg.add(
-              url="git@github.com:chrissm23/ParallelKDE.jl",
+              url="git@github.com:chrissm23/ParallelKDE.jl.git",
               rev="main"
             );
             Pkg.precompile()
