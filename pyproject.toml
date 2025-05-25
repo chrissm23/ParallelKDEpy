@@ -8,19 +8,17 @@ readme = "README.md"
 homepage = "https://github.com/chrissm23/ParallelKDEpy"
 repository = "https://github.com/chrissm23/ParallelKDEpy"
 documentation = "https://chrissm23.github.io/ParallelKDEpy" # optional
+packages = [{ include = "parallelkdepy", from = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.12" # minimum supported Python version
-pyjulia = "^0.9"
+python = "^3.12"   # minimum supported Python version
+juliacall = "^0.9"
 numpy = "^2.2"
 # any other runtime deps here
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^8.3"
 pytest-cov = "^6.1"
-flake8 = "^6.0"                                         # optional, for linting
-isort = "^6.0"                                          # optional, for import sorting
-black = { version = "^24.0", allow-prereleases = true }
 
 # [tool.poetry.scripts]
 # parallelkde = "parallelkdepy.cli:main" # if you provide a console entry point (optional)
