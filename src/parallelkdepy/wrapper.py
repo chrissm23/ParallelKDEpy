@@ -44,7 +44,7 @@ class Grid:
 
     def __init__(
         self,
-        ranges: Sequence = [],
+        ranges: Sequence[tuple] = [],
         *,
         device: str = "cpu",
         b32: Optional[bool] = None,
@@ -54,7 +54,7 @@ class Grid:
             if (ranges is None) or (len(ranges) == 0):
                 raise ValueError("Ranges must be provided to create a grid.")
 
-            grid_jl = core.create_grid(ranges, device, b32)
+            grid_jl = core.create_grid(ranges, device=device, b32=b32)
 
             self._grid_jl = grid_jl
             self._device = device
@@ -85,47 +85,47 @@ class Grid:
         """
         return self._shape
 
-    def to_meshgrid(self) -> np.ndarray:
+    def to_meshgrid(self) -> tuple[np.ndarray, ...]:
         """
-        Numpy array of grid coordinates with shape
+        Mesh grid coordinates
         """
         return core.grid_coordinates(self._grid_jl)
 
-    def step(self) -> np.ndarray:
+    def step(self) -> list:
         """
-        Numpy array of step sizes for each dimension of the grid.
+        List of step sizes for each dimension of the grid.
         """
         return core.grid_step(self._grid_jl)
 
-    def bounds(self) -> np.ndarray:
+    def bounds(self) -> list[tuple]:
         """
-        Numpy array of bounds for each dimension of the grid.
+        List of tuples of bounds for each dimension of the grid.
         """
         return core.grid_bounds(self._grid_jl)
 
-    def lower_bounds(self) -> np.ndarray:
+    def lower_bounds(self) -> list:
         """
-        Numpy array of lower bounds for each dimension of the grid.
+        List of lower bounds for each dimension of the grid.
         """
-        return self.bounds()[0]
+        return [lb for lb, _ in self.bounds()]
 
-    def higher_bounds(self) -> np.ndarray:
+    def higher_bounds(self) -> list:
         """
-        Numpy array of lower bounds for each dimension of the grid.
+        List of lower bounds for each dimension of the grid.
         """
-        return self.bounds()[1]
+        return [hb for _, hb in self.bounds()]
 
-    def initial_bandwidth(self) -> np.ndarray:
+    def initial_bandwidth(self) -> list:
         """
-        Numpy array of the minimum bandwidth that the grid can support.
+        List of the minimum bandwidth that the grid can support in each dimension.
         """
         return core.grid_initial_bandwidth(self._grid_jl)
 
-    def fftgrid(self) -> Self:
+    def fftgrid(self):
         """
         Returns a grid of frequency components.
         """
-        return core.grid_fftgrid(self._grid_jl)
+        return Grid(grid_jl=core.grid_fftgrid(self._grid_jl))
 
 
 def initialize_dirac_sequence(
