@@ -91,3 +91,28 @@ def grid_initial_bandwidth(grid_jl) -> list:
 
 def grid_fftgrid(grid_jl):
     return jl.fftgrid(grid_jl)
+
+
+def initialize_dirac_sequence(
+    data: np.ndarray,
+    grid_jl,
+    bootstrap_indices: Optional[np.ndarray] = None,
+    device: str = "cpu",
+    method: str = "serial",
+) -> np.ndarray:
+    """
+    Creates a numpy array with the dirac sequence obtained from the data on the grid.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        Numpy array of the data with shape (n_samples, n_features).
+    grid_jl
+        Julia grid object.
+    bootstrap_indices : Optional[np.ndarray], optional
+        Optional numpy array of bootstrap indices. If provided, it should have shape (n_bootstraps, n_samples).
+    device : str, optional
+        The device to store the array, e.g., 'cpu' or 'cuda'. Default is 'cpu'.
+    method : str, optional
+        The method to use for initializing the Dirac sequence, e.g., 'serial' or 'parallel'. Default is 'serial'.
+    """

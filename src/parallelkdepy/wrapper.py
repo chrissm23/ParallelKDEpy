@@ -144,6 +144,13 @@ def initialize_dirac_sequence(
         Data points to initialize the Dirac sequence.
     grid : Grid
         The grid on which to initialize the Dirac sequence.
+    bootstrap_indices : Optional[np.ndarray], optional
+        Numpy array of bootstrap indices, by default None. If provided,
+        the shape should be (n_bootstraps, n_samples).
+    device : str, optional
+        Device to store the array, e.g., 'cpu' or 'cuda', by default 'cpu'.
+    method : str, optional
+        Method to use for initialization, e.g., 'serial' or 'parallel', by default 'serial'.
 
     Returns
     -------
@@ -151,7 +158,11 @@ def initialize_dirac_sequence(
         Numpy array representing the initialized Dirac sequence.
     """
     return core.initialize_dirac_sequence(
-        data, grid.grid_jl, bootstrap_indices, device, method
+        data,
+        grid.grid_jl,
+        bootstrap_indices=bootstrap_indices,
+        device=device,
+        method=method,
     )
 
 
@@ -236,9 +247,22 @@ class DensityEstimation:
     @property
     def grid(self) -> Optional[Grid]:
         """
-        Returns the grid used for density estimation, if any.
+        Grid used for density estimation, if any.
         """
         return self._grid
+
+    @grid.setter
+    def grid(self, value: Grid) -> None:
+        if not isinstance(value, Grid):
+            raise ValueError("Grid must be an instance of the Grid class.")
+        if value.device != self.device:
+            raise ValueError(
+                f"Grid device {value.device} does not match DensityEstimation device {self._device}."
+            )
+        self._grid = value
+        self._densityestimation_jl = core.create_density_estimation(
+            self.data, grid=self._grid.grid_jl, device=self._device
+        )
 
     @property
     def density(self) -> np.ndarray:
