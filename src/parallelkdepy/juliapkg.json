@@ -3,7 +3,7 @@
   "packages": {
     "ParallelKDE": {
       "uuid": "251f600b-d60c-4092-b1b9-465b74160c73",
-      "url": "git@github.com:chrissm23/ParallelKDE.jl.git",
+      "url": "https://github.com/chrissm23/ParallelKDE.jl.git",
       "rev": "main"
     }
   }
