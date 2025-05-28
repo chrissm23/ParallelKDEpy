@@ -19,10 +19,12 @@ def _init_julia():
         _initialized = True
 
 
-AvailableDevices = {
-    jl.ParallelKDE.IsCPU: "cpu",
-    jl.ParallelKDE.IsCUDA: "cuda",
-}
+AvailableDevices = ["cpu", "cuda"]
+AvailableImplementations = {"cpu": ["serial", "threaded"], "cuda": ["cuda"]}
+
+
+def str_to_symbol(s: str):
+    return jl.Symbol(s)
 
 
 def create_grid(ranges: Sequence, device: str = "cpu", b32: Optional[bool] = None):
@@ -36,7 +38,7 @@ def create_grid(ranges: Sequence, device: str = "cpu", b32: Optional[bool] = Non
     device : str, optional
         The device type, e.g., 'cpu' or 'cuda'. Default is 'cpu'.
     b32 : Optional[bool], optional
-        Whether to use 32-bit precision for CUDA devices.
+        Whether to use 32-bit precision for GPU devices.
         Default is None, which uses 32-bit precision if the device is 'cuda'.
     Returns
     -------
@@ -44,15 +46,16 @@ def create_grid(ranges: Sequence, device: str = "cpu", b32: Optional[bool] = Non
         The created grid object in Julia.
     """
     ranges = [jl.range(start, stop, length) for start, stop, length in ranges]
+    if device not in AvailableDevices:
+        raise ValueError(
+            f"Unsupported device type: {device}. Available devices: {AvailableDevices}"
+        )
+    b32 = b32 if b32 is not None else (device != "cpu")
+
     if device == "cpu":
         grid = jl.initialize_grid(*ranges)
-    elif device == "cuda":
-        if b32 is None:
-            grid = jl.initialize_grid(*ranges, device=device, b32=True)
-        else:
-            grid = jl.initialize_grid(*ranges, device=device, b32=b32)
     else:
-        raise ValueError(f"Unsupported device type: {device}")
+        grid = jl.initialize_grid(*ranges, device=str_to_symbol(device), b32=b32)
 
     return grid
 
@@ -70,7 +73,8 @@ def grid_device(grid_jl) -> str:
 
 
 def grid_coordinates(grid_jl) -> tuple[np.ndarray, ...]:
-    coords_np = jl.get_coordinates(grid_jl).to_numpy()
+    coords_np = jl.get_coordinates(grid_jl).to_numpy().transpose()
+    coords_np = np.ascontiguousarray(np.moveaxis(coords_np, -1, 0))
 
     return tuple(coords_np[i, ...] for i in range(coords_np.shape[0]))
 
@@ -93,9 +97,29 @@ def grid_fftgrid(grid_jl):
     return jl.fftgrid(grid_jl)
 
 
+def find_grid(
+    data: np.ndarray,
+    grid_bounds: Optional[Sequence[tuple]] = None,
+    grid_dims: Optional[Sequence] = None,
+    grid_steps: Optional[Sequence] = None,
+    grid_padding: Optional[Sequence] = None,
+    device: str = "cpu",
+):
+    device = str_to_symbol(device)
+
+    return jl.find_grid(
+        data,
+        grid_bounds=grid_bounds,
+        grid_dims=grid_dims,
+        grid_steps=grid_steps,
+        grid_padding=grid_padding,
+        device=device,
+    )
+
+
 def initialize_dirac_sequence(
     data: np.ndarray,
-    grid_jl,
+    grid_jl=None,
     bootstrap_indices: Optional[np.ndarray] = None,
     device: str = "cpu",
     method: str = "serial",
@@ -116,3 +140,36 @@ def initialize_dirac_sequence(
     method : str, optional
         The method to use for initializing the Dirac sequence, e.g., 'serial' or 'parallel'. Default is 'serial'.
     """
+    device = str_to_symbol(device)
+    method = str_to_symbol(method)
+
+    dirac_sequences = jl.initialize_dirac_sequence(
+        data,
+        grid=grid_jl,
+        bootstrap_indices=bootstrap_indices,
+        device=device,
+        method=method,
+    ).to_numpy()
+
+    return dirac_sequences.transpose() if dirac_sequences.ndim > 1 else dirac_sequences
+
+
+def create_density_estimation(data: np.ndarray, grid, device: str = "cpu"):
+    return jl.initialize_estimation(data, grid=grid, device=str_to_symbol(device))
+
+
+def estimate_density(density_estimation, estimation_method: str, **kwargs):
+    kwargs = {
+        k: str_to_symbol(v) if isinstance(v, str) else v for k, v in kwargs.items()
+    }
+    jl.estimate_density_b(
+        density_estimation, str_to_symbol(estimation_method), **kwargs
+    )
+
+    return None
+
+
+def get_density(density_estimation) -> np.ndarray:
+    density = jl.get_density(density_estimation).to_numpy()
+
+    return density.transpose() if density.ndim > 1 else density
