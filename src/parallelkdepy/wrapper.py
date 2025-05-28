@@ -211,13 +211,19 @@ class DensityEstimation:
             self._grid = grid
         elif grid is True:
             self._grid = Grid(
-                grid_jl=core.find_grid(data, dims, grid_bounds, grid_padding, device)
+                grid_jl=core.find_grid(
+                    data,
+                    grid_dims=dims,
+                    grid_bounds=grid_bounds,
+                    grid_padding=grid_padding,
+                    device=device,
+                )
             )
         elif grid is False:
             self._grid = None
         else:
             raise ValueError(
-                "Grid must be a Grid object, True to find a grid, or False to not use a grid."
+                "Grid must be a Grid object, True to find an appropriate grid, or False to not use a grid."
             )
 
         if self._grid is not None:
@@ -226,7 +232,7 @@ class DensityEstimation:
             )
         else:
             self._densityestimation_jl = core.create_density_estimation(
-                data, device=device
+                data, grid=False, device=device
             )
         self._density = core.get_density(self._densityestimation_jl)
 
