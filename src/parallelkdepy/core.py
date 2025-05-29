@@ -21,6 +21,7 @@ def _init_julia():
 
 AvailableDevices = ["cpu", "cuda"]
 AvailableImplementations = {"cpu": ["serial", "threaded"], "cuda": ["cuda"]}
+DefaultImplementations = {"cpu": "serial", "cuda": "cuda"}
 
 
 def str_to_symbol(s: str):
@@ -132,7 +133,7 @@ def initialize_dirac_sequence(
     grid_jl=None,
     bootstrap_indices: Optional[np.ndarray] = None,
     device: str = "cpu",
-    method: str = "serial",
+    method: Optional[str] = None,
 ) -> np.ndarray:
     """
     Creates a numpy array with the dirac sequence obtained from the data on the grid.
@@ -152,7 +153,10 @@ def initialize_dirac_sequence(
     """
     data = data.transpose() if data.ndim > 1 else data
     device = str_to_symbol(device)
+    if method is None:
+        method = DefaultImplementations[device]
     method = str_to_symbol(method)
+
     bootstrap_indices = (
         bootstrap_indices.transpose()
         if ((bootstrap_indices is not None) and (bootstrap_indices.ndim > 1))
