@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, ssh2pat]
   pull_request:
     branches: [main]
 
@@ -32,7 +32,7 @@ jobs:
           version: "1.11" # match the version ParallelKDE.jl supports
 
       # Install ParallelKDE.jl
-      - name: Install ParallelKDE.jl (via SSH deploy key)
+      - name: Install ParallelKDE.jl
         run: |
           julia -e '
             import Pkg;
