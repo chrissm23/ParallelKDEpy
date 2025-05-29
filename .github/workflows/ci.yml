@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: chrissm23/ParallelKDE.jl
-          token: ${{ secrets.JULIA_PARALLELKDE_TOKEN }}
+          token: ${{ secrets.PARALLELKDE_TOKEN }}
           path: parallelkde
 
       # 1️⃣ Install Julia
