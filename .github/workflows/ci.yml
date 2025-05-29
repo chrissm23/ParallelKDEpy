@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, ssh2pat]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -30,17 +30,6 @@ jobs:
         uses: julia-actions/setup-julia@v2
         with:
           version: "1.11" # match the version ParallelKDE.jl supports
-
-      # Install ParallelKDE.jl
-      - name: Install ParallelKDE.jl
-        run: |
-          julia -e '
-            import Pkg;
-            Pkg.add(
-              url="./parallelkde",
-            );
-            Pkg.precompile()
-          '
 
       # 2️⃣ Setup Python
       - name: Setup Python ${{ matrix.python-version }}
