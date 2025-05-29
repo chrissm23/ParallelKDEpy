@@ -27,6 +27,15 @@ def str_to_symbol(s: str):
     return jl.Symbol(s)
 
 
+def device_to_str(device) -> str:
+    devices = {
+        jl.ParallelKDE.Devices.IsCPU(): "cpu",
+        jl.ParallelKDE.Devices.IsCUDA(): "cuda",
+    }
+
+    return devices[device]
+
+
 def create_grid(ranges: Sequence, device: str = "cpu", b32: Optional[bool] = None):
     """
     Create a grid instance of the Julia object `ParallelKDE.Grid`.
@@ -67,7 +76,7 @@ def grid_shape(grid_jl) -> tuple:
 def grid_device(grid_jl) -> str:
     device_jl = jl.ParallelKDE.get_device(grid_jl)
     try:
-        return AvailableDevices[device_jl]
+        return device_to_str(device_jl)
     except KeyError:
         raise ValueError(f"Unsupported device type: {device_jl}")
 
@@ -105,6 +114,7 @@ def find_grid(
     grid_padding: Optional[Sequence] = None,
     device: str = "cpu",
 ):
+    data = data.transpose() if data.ndim > 1 else data
     device = str_to_symbol(device)
 
     return jl.find_grid(
@@ -140,13 +150,19 @@ def initialize_dirac_sequence(
     method : str, optional
         The method to use for initializing the Dirac sequence, e.g., 'serial' or 'parallel'. Default is 'serial'.
     """
+    data = data.transpose() if data.ndim > 1 else data
     device = str_to_symbol(device)
     method = str_to_symbol(method)
+    bootstrap_indices = (
+        bootstrap_indices.transpose()
+        if ((bootstrap_indices is not None) and (bootstrap_indices.ndim > 1))
+        else bootstrap_indices
+    )
 
     dirac_sequences = jl.initialize_dirac_sequence(
         data,
         grid=grid_jl,
-        bootstrap_indices=bootstrap_indices,
+        bootstrap_idxs=bootstrap_indices,
         device=device,
         method=method,
     ).to_numpy()
@@ -155,6 +171,8 @@ def initialize_dirac_sequence(
 
 
 def create_density_estimation(data: np.ndarray, grid, device: str = "cpu"):
+    data = data.transpose() if data.ndim > 1 else data
+
     return jl.initialize_estimation(data, grid=grid, device=str_to_symbol(device))
 
 
