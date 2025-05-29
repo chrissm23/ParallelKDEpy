@@ -133,7 +133,7 @@ def initialize_dirac_sequence(
     grid: Grid,
     bootstrap_indices: Optional[np.ndarray] = None,
     device: str = "cpu",
-    method: str = "serial",
+    method: Optional[str] = None,
 ) -> np.ndarray:
     """
     Initialize a Dirac sequence on the given grid.
