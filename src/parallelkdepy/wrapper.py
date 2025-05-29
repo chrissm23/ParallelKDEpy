@@ -2,7 +2,7 @@
 High-level API: Functions and objects that wrap Julia calls.
 """
 
-from typing import Sequence, Self, Optional
+from typing import Sequence, Optional
 
 from . import core
 import numpy as np
@@ -72,14 +72,14 @@ class Grid:
         return self._grid_jl
 
     @property
-    def device(self) -> str:
+    def device(self):
         """
         Device type, e.g., 'cpu' or 'cuda'.
         """
         return self._device
 
     @property
-    def shape(self) -> tuple:
+    def shape(self):
         """
         Shape of the grid.
         """
@@ -237,28 +237,28 @@ class DensityEstimation:
         self._density = core.get_density(self._densityestimation_jl)
 
     @property
-    def data(self) -> np.ndarray:
+    def data(self):
         """
         Numpy array of data points for density estimation.
         """
         return self._data
 
     @property
-    def device(self) -> str:
+    def device(self):
         """
         Device type, e.g., 'cpu' or 'cuda'.
         """
         return self._device
 
     @property
-    def grid(self) -> Optional[Grid]:
+    def grid(self):
         """
         Grid used for density estimation, if any.
         """
         return self._grid
 
     @grid.setter
-    def grid(self, value: Grid) -> None:
+    def grid(self, value: Grid):
         if not isinstance(value, Grid):
             raise ValueError("Grid must be an instance of the Grid class.")
         if value.device != self.device:
@@ -271,7 +271,7 @@ class DensityEstimation:
         )
 
     @property
-    def density(self) -> np.ndarray:
+    def density(self):
         """
         Numpy array representing the estimated density.
         """
@@ -282,6 +282,7 @@ class DensityEstimation:
         dims: Optional[Sequence] = None,
         grid_bounds: Optional[Sequence] = None,
         grid_padding: Optional[Sequence] = None,
+        overwrite: bool = False,
     ) -> Grid:
         """
         Generates a grid based on the data and specified parameters.
@@ -291,11 +292,31 @@ class DensityEstimation:
         Grid
             A Grid object representing the generated grid.
         """
-        return Grid(
-            grid_jl=core.find_grid(
-                self.data, dims, grid_bounds, grid_padding, self.device
+        if overwrite:
+            self.grid = Grid(
+                grid_jl=core.find_grid(
+                    self.data,
+                    grid_dims=dims,
+                    grid_bounds=grid_bounds,
+                    grid_padding=grid_padding,
+                    device=self.device,
+                )
             )
-        )
+
+            return self.grid
+        else:
+            if isinstance(self.grid, Grid):
+                return self.grid
+            else:
+                return Grid(
+                    grid_jl=core.find_grid(
+                        self.data,
+                        grid_dims=dims,
+                        grid_bounds=grid_bounds,
+                        grid_padding=grid_padding,
+                        device=self.device,
+                    )
+                )
 
     def estimate_density(self, estimation: str, **kwargs) -> None:
         """

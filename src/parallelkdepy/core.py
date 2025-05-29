@@ -21,7 +21,6 @@ def _init_julia():
 
 AvailableDevices = ["cpu", "cuda"]
 AvailableImplementations = {"cpu": ["serial", "threaded"], "cuda": ["cuda"]}
-DefaultImplementations = {"cpu": "serial", "cuda": "cuda"}
 
 
 def str_to_symbol(s: str):
@@ -151,11 +150,19 @@ def initialize_dirac_sequence(
     method : str, optional
         The method to use for initializing the Dirac sequence, e.g., 'serial' or 'parallel'. Default is 'serial'.
     """
+    if data.ndim != 2:
+        raise ValueError("Data must be 2-dimensional (n_samples, n_features).")
+
     data = data.transpose() if data.ndim > 1 else data
+
+    if device not in AvailableDevices:
+        raise ValueError(
+            f"Unsupported device type: {device}. Available devices: {AvailableDevices}"
+        )
+    if (method is not None) and (method not in AvailableImplementations[device]):
+        raise ValueError("Unsupported method for the given device type.")
     device = str_to_symbol(device)
-    if method is None:
-        method = DefaultImplementations[device]
-    method = str_to_symbol(method)
+    method = str_to_symbol(method) if method is not None else method
 
     bootstrap_indices = (
         bootstrap_indices.transpose()
