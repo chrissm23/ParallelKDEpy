@@ -44,15 +44,22 @@ jobs:
           pip install poetry
           poetry config virtualenvs.create false  # install into the runner’s env
           poetry install --no-interaction --no-ansi
+          pip install pytest pytest-cov
 
       # 5️⃣ Run tests
       - name: Run pytest
         run: |
-          pytest --maxfail=1 --disable-warnings --quiet --cov=src/parallelkdepy
+          pytest
 
-      # 6️⃣ Upload coverage (optional)
-      - name: Upload coverage report
+      # 6️⃣ Upload coverage
+      - name: Upload HTML coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: htmlcov/
+          name: coverage-html
+          path: htmlcov
+
+      - name: Upload coverage report XML
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml

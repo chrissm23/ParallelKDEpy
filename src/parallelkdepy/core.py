@@ -82,14 +82,13 @@ def grid_device(grid_jl) -> str:
 
 
 def grid_coordinates(grid_jl) -> tuple[np.ndarray, ...]:
-    coords_np = jl.get_coordinates(grid_jl).to_numpy().transpose()
-    coords_np = np.ascontiguousarray(np.moveaxis(coords_np, -1, 0))
+    coords_np = jl.get_coordinates(grid_jl).to_numpy()
 
-    return tuple(coords_np[i, ...] for i in range(coords_np.shape[0]))
+    return tuple(np.ascontiguousarray(coords_np[i]) for i in range(coords_np.shape[0]))
 
 
 def grid_step(grid_jl) -> list:
-    return list(jl.spacings(grid_jl))
+    return list(jl.spacings(grid_jl).to_numpy())
 
 
 def grid_bounds(grid_jl) -> list[tuple]:
@@ -99,7 +98,7 @@ def grid_bounds(grid_jl) -> list[tuple]:
 
 
 def grid_initial_bandwidth(grid_jl) -> list:
-    return list(jl.initial_bandwidth(grid_jl))
+    return list(jl.initial_bandwidth(grid_jl).to_numpy())
 
 
 def grid_fftgrid(grid_jl):
@@ -181,10 +180,24 @@ def initialize_dirac_sequence(
     return dirac_sequences.transpose() if dirac_sequences.ndim > 1 else dirac_sequences
 
 
-def create_density_estimation(data: np.ndarray, grid, device: str = "cpu"):
+def create_density_estimation(
+    data: np.ndarray,
+    grid,
+    dims: Optional[Sequence] = None,
+    grid_bounds: Optional[Sequence[tuple]] = None,
+    grid_padding: Optional[Sequence] = None,
+    device: str = "cpu",
+):
     data = data.transpose() if data.ndim > 1 else data
 
-    return jl.initialize_estimation(data, grid=grid, device=str_to_symbol(device))
+    return jl.initialize_estimation(
+        data,
+        grid=grid,
+        dims=dims,
+        grid_bounds=grid_bounds,
+        grid_padding=grid_padding,
+        device=str_to_symbol(device),
+    )
 
 
 def estimate_density(density_estimation, estimation_method: str, **kwargs):

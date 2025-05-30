@@ -34,8 +34,8 @@ class Grid:
         Returns the bounds of the grid.
     lower_bounds()
         Returns the lower bounds of the grid.
-    higher_bounds()
-        Returns the higher bounds of the grid.
+    upper_bounds()
+        Returns the upper bounds of the grid.
     initiial_bandwidth()
         Returns the minimum bandwidth that the grid can support.
     fftgrid()
@@ -109,7 +109,7 @@ class Grid:
         """
         return [lb for lb, _ in self.bounds()]
 
-    def higher_bounds(self) -> list:
+    def upper_bounds(self) -> list:
         """
         List of lower bounds for each dimension of the grid.
         """
@@ -121,11 +121,30 @@ class Grid:
         """
         return core.grid_initial_bandwidth(self._grid_jl)
 
-    def fftgrid(self):
+    def fftgrid(self) -> "Grid":
         """
         Returns a grid of frequency components.
         """
         return Grid(grid_jl=core.grid_fftgrid(self._grid_jl))
+
+    def __eq__(self, other: object) -> bool:
+        """
+        Check equality with another Grid object.
+        """
+        if not isinstance(other, Grid):
+            return False
+
+        equal_arrays = True
+        meshgrid_self = self.to_meshgrid()
+        meshgrid_other = other.to_meshgrid()
+        for i in range(len(self.shape)):
+            if not np.allclose(meshgrid_self[i], meshgrid_other[i]):
+                equal_arrays = False
+                break
+
+        return (
+            self.device == other.device and self.shape == other.shape and equal_arrays
+        )
 
 
 def initialize_dirac_sequence(
@@ -232,7 +251,12 @@ class DensityEstimation:
             )
         else:
             self._densityestimation_jl = core.create_density_estimation(
-                data, grid=False, device=device
+                data,
+                grid=False,
+                dims=dims,
+                grid_bounds=grid_bounds,
+                grid_padding=grid_padding,
+                device=device,
             )
         self._density = core.get_density(self._densityestimation_jl)
 
