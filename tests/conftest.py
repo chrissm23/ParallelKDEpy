@@ -3,6 +3,13 @@ import numpy as np
 
 import parallelkdepy as pkde
 
+from juliacall import Main as jl
+
+jl.seval("using Pkg")
+jl.Pkg.add("CUDA")
+jl.seval("using CUDA")
+_cuda_functional = jl.CUDA.functional()
+
 
 @pytest.fixture(params=[1, 2, 3], ids=lambda x: f"{x}D")
 def n_dims(request):
@@ -37,7 +44,12 @@ def device(request):
     str
         The device type to use in tests, e.g., 'cpu' or 'cuda'.
     """
-    return request.param
+    device = request.param
+
+    if device == "cuda" and not _cuda_functional:
+        pytest.skip("Skipping CUDA tests because CUDA is not functional.")
+
+    return device
 
 
 @pytest.fixture
