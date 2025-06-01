@@ -92,4 +92,4 @@ def test_estimation_result(generate_density_estimation, generate_pdf):
     mise = np.sum(density_estimated - generate_pdf) ** 2 * dx / n_gridpoints
 
     # TODO: Replace with appropriate MISE threshold
-    assert mise < 0.01
+    assert mise < 1e-5
