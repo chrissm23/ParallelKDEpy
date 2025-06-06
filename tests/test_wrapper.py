@@ -83,13 +83,23 @@ def test_density_estimation(generate_density_estimation, generate_data, n_dims, 
 
 # TODO: Extend this test to cover more dimensions
 @pytest.mark.parametrize("n_dims", [1], indirect=True)
-def test_estimation_result(generate_density_estimation, generate_pdf):
+def test_estimation_result(generate_density_estimation, n_dims):
     generate_density_estimation.estimate_density("parallelEstimator")
     density_estimated = generate_density_estimation.get_density()
 
-    dx = np.prod(generate_density_estimation.generate_grid().step())
-    n_gridpoints = np.prod(generate_density_estimation.generate_grid().shape)
-    mise = np.sum(density_estimated - generate_pdf) ** 2 * dx / n_gridpoints
+    # Obtain coordinates from the grid
+    grid = generate_density_estimation.generate_grid()
+    coordinates = grid.to_meshgrid()
 
-    # TODO: Replace with appropriate MISE threshold
+    # Generate a normal distribution for comparison
+    sigma2 = 0.9**2
+    squared_distance = sum((g**2 for g in coordinates)) / sigma2
+    norm_const = (2 * np.pi * sigma2) ** (-n_dims / 2)
+    distro = norm_const * np.exp(-0.5 * squared_distance)
+
+    # Calculated error
+    dx = np.prod(grid.step())
+    n_gridpoints = np.prod(generate_density_estimation.generate_grid().shape)
+    mise = np.sum(density_estimated - distro) ** 2 * dx / n_gridpoints
+
     assert mise < 1e-5
