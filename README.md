@@ -5,7 +5,7 @@ Python wrapper of ParallelKDE.jl
 Since the package is not yet available on PyPI, it is available directly from the GitHub repository:
 
 ```bash
-git clone htt;ps://github.com/chrissm23/ParallelKDEpy.git
+git clone https://github.com/chrissm23/ParallelKDEpy.git
 ```
 
 The local installation is recommended using [poetry](https://python-poetry.org/) which provides installation instructions [here](https://python-poetry.org/docs).
@@ -14,16 +14,37 @@ The local installation is recommended using [poetry](https://python-poetry.org/)
 poetry install
 ```
 
+> [!WARNING]
+> Since `ParallelKDE.jl` is still a private repository, please check the [Advanced installation of `ParallelKDE.jl`](#advanced-installation-of-parallelkdejl) section below before running the following command.
+
 `ParallelKDEpy` can be imported with:
 
 ```python
 import parallelkdepy as pkde
 ```
 
-The first time that ParallelKDEpy is imported, it will automatically download `Julia` and `ParallelKDE.jl`. During the process, you will be prompted to provide your GitHub username and password (or personal token) to authenticate the installation since `ParallelKDE.jl` is still a private repository.
+The first time that `ParallelKDEpy` is imported, it will automatically download `Julia` and `ParallelKDE.jl`. During the process, you will be prompted to provide your GitHub username and password (or personal token) to authenticate the installation since `ParallelKDE.jl` is still a private repository.
 
 ### Advanced installation of `ParallelKDE.jl`
-For quickly applying and testing changes to `ParallelKDE.jl` it is recommended to follow its installation [instructions](https://github.com/chrissm23/ParallelKDE.jl) and, before importing the wrapper for the first time, change the file `url` entry in `src/parallelkdepy/juliapkg.json` to point to the local path of `ParallelKDE.jl`. Just remember to omit those changes with
+Since `ParallelKDE.jl` is still a private repository, CI of `ParallelKDEpy` requires the `main` and `dev` branches to refer to a locally cloned version of `ParallelKDE.jl`. In order to work with wrapper, any cloned branch from `main` or `dev` need to have the `url` entry in the `src/parallelkdepy/juliapkg.json` file changed as follows:
+
+```json
+{
+  "julia": "^1.11",
+  "packages": {
+    "ParallelKDE": {
+      "uuid": "251f600b-d60c-4092-b1b9-465b74160c73",
+      "url": "https://github.com/chrissm23/ParallelKDE.jl",
+      "rev": "main"  # or "dev" for the latest changes
+    }
+  }
+}
+```
+
+For quickly applying and testing changes to `ParallelKDE.jl` it is recommended to follow its installation [instructions](https://github.com/chrissm23/ParallelKDE.jl) and, before importing the wrapper for the first time, change the file `url` entry in `src/parallelkdepy/juliapkg.json` to point to the local path of `ParallelKDE.jl`.
+
+> [!NOTE]
+> Remember to omit the changes to the `juliapkg.json` file from the git index, so that it does not get committed to the repository. This can be done by running the following command in the root directory of `ParallelKDEpy`:
 
 ```bash
 git update-index --skip-worktree /path/to/ParallelKDEpy/src/parallelkdepy/juliapkg.json
