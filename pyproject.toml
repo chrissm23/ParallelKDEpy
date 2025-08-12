@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "parallelkdepy"
-version = "0.1.0"                                           # bump this on each release
+version = "1.0.0-alpha.1"                                   # bump this on each release
 description = "Python wrapper of ParallelKDE.jl"
 authors = ["Christian Sustay <christian.sustay@tum.de>"]
 license = "MIT"                                             # or whichever license you chose
@@ -26,3 +26,16 @@ pytest-cov = "^6.1"
 [build-system]
 requires = ["poetry-core>=1.5.0"]
 build-backend = "poetry.core.masonry.api"
+
+
+
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^8.2"
+myst-parser = "^4.0"
+furo = "^2024.04"
+sphinx-autobuild = "^2024.10"
+matplotlib = "^3.10.5"
