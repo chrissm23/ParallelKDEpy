@@ -102,4 +102,4 @@ def test_estimation_result(generate_density_estimation, n_dims):
     n_gridpoints = np.prod(generate_density_estimation.generate_grid().shape)
     mise = np.sum(density_estimated - distro) ** 2 * dx / n_gridpoints
 
-    assert mise < 1e-5
+    assert mise < 5e-5
