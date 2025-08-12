@@ -348,8 +348,8 @@ class DensityEstimation:
         """
         core.estimate_density(self._densityestimation_jl, estimation, **kwargs)
 
-    def get_density(self) -> np.ndarray:
+    def get_density(self, **kwargs) -> np.ndarray:
         """
         Returns the estimated density as a Numpy array.
         """
-        return core.get_density(self._densityestimation_jl)
+        return core.get_density(self._densityestimation_jl, **kwargs)

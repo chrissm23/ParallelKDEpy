@@ -211,7 +211,7 @@ def estimate_density(density_estimation, estimation_method: str, **kwargs):
     return None
 
 
-def get_density(density_estimation) -> np.ndarray:
-    density = jl.get_density(density_estimation).to_numpy()
+def get_density(density_estimation, **kwargs) -> np.ndarray:
+    density = jl.get_density(density_estimation, **kwargs).to_numpy()
 
     return density.transpose() if density.ndim > 1 else density
