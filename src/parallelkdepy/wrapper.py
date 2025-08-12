@@ -150,6 +150,7 @@ class Grid:
 def initialize_dirac_sequence(
     data: np.ndarray,
     grid: Grid,
+    *,
     bootstrap_indices: Optional[np.ndarray] = None,
     device: str = "cpu",
     method: Optional[str] = None,
@@ -213,6 +214,7 @@ class DensityEstimation:
     def __init__(
         self,
         data: np.ndarray,
+        *,
         grid: Grid | bool = False,
         dims: Optional[Sequence] = None,
         grid_bounds: Optional[Sequence] = None,
