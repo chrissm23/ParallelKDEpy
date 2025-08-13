@@ -28,8 +28,6 @@ requires = ["poetry-core>=1.5.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-
-
 [tool.poetry.group.docs]
 optional = true
 
@@ -38,4 +36,4 @@ sphinx = "^8.2"
 myst-parser = "^4.0"
 furo = "^2024.04"
 sphinx-autobuild = "^2024.10"
-matplotlib = "^3.10.5"
+matplotlib = "^3.10"
