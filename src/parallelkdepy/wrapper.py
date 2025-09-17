@@ -14,32 +14,6 @@ core._init_julia()
 class Grid:
     """
     Higer level implementation of a grid to use over meshgrid.
-
-    Attributes
-    ----------
-    grid_jl : juliacall.AnyValue
-        Underlying Julia grid object.
-    device : str
-        Device type, e.g., 'cpu' or 'cuda'.
-    shape : tuple
-        Shape of the grid.
-
-    Methods
-    -------
-    get_coordinates()
-        Returns the coordinates of the grid.
-    step()
-        Returns the step size of the grid.
-    bounds()
-        Returns the bounds of the grid.
-    lower_bounds()
-        Returns the lower bounds of the grid.
-    upper_bounds()
-        Returns the upper bounds of the grid.
-    initiial_bandwidth()
-        Returns the minimum bandwidth that the grid can support.
-    fftgrid()
-        Returns a grid of frequency components.
     """
 
     def __init__(
@@ -189,26 +163,6 @@ def initialize_dirac_sequence(
 class DensityEstimation:
     """
     Main API object for density estimation.
-
-    Attributes
-    ----------
-    data : np.ndarray
-        Numpy array of data points for density estimation. Shape should be (n_samples, n_features).
-    density : np.ndarray
-        Numpy array representing the estimated density.
-    grid : Optional[Grid]
-        The grid on which the density is estimated if required by the method.
-    device : str
-        Device type, e.g., 'cpu' or 'cuda'.
-    _densityestimation_jl : juliacall.AnyValue
-        Underlying Julia density estimation object.
-
-    Methods
-    -------
-    generate_grid
-        Generates a grid based on the data and specified parameters.
-    estimate_density
-        Uses the specified method to estimate the density from the data.
     """
 
     def __init__(
