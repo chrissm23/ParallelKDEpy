@@ -303,9 +303,11 @@ class DensityEstimation:
         Executes the density estimation algorithm on the data.
         """
         core.estimate_density(self._densityestimation_jl, estimation, **kwargs)
+        self._density = core.get_density(self._densityestimation_jl)
 
     def get_density(self, **kwargs) -> np.ndarray:
         """
         Returns the estimated density as a Numpy array.
         """
-        return core.get_density(self._densityestimation_jl, **kwargs)
+        self._density = core.get_density(self._densityestimation_jl, **kwargs)
+        return self._density
