@@ -17,7 +17,6 @@ def _init_julia():
 
     if not _initialized:
         jl.seval("using ParallelKDE")
-        jl.seval("using CUDA")
         _initialized = True
 
 
@@ -215,12 +214,6 @@ def estimate_density(density_estimation, estimation_method: str, **kwargs):
 
 def get_density(density_estimation, **kwargs) -> np.ndarray:
     density = jl.get_density(density_estimation, **kwargs)
-
-    if jl.isa(density, jl.CuArray):
-        density_cpu = jl.Array(density)
-        jl.CUDA.device_synchronize()
-        density_np = density_cpu.to_numpy()
-    else:
-        density_np = density.to_numpy()
+    density_np = density.to_numpy()
 
     return density_np.transpose() if density_np.ndim > 1 else density_np
