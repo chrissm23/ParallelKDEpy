@@ -192,7 +192,7 @@ def create_density_estimation(
     data = data.transpose() if data.ndim > 1 else data
 
     return jl.initialize_estimation(
-        data,
+        data[:, ::-1],
         grid=grid,
         dims=dims,
         grid_bounds=grid_bounds,
