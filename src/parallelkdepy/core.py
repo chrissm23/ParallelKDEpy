@@ -85,7 +85,9 @@ def grid_device(grid_jl) -> str:
 def grid_coordinates(grid_jl) -> tuple[np.ndarray, ...]:
     coords_np = jl.get_coordinates(grid_jl).to_numpy()
 
-    return tuple(np.ascontiguousarray(coords_np[i]) for i in range(coords_np.shape[0]))
+    return tuple(
+        np.ascontiguousarray(coords_np[i]) for i in range(coords_np.shape[0])[::-1]
+    )
 
 
 def grid_step(grid_jl) -> list:
@@ -192,7 +194,7 @@ def create_density_estimation(
     data = data.transpose() if data.ndim > 1 else data
 
     return jl.initialize_estimation(
-        data[:, ::-1],
+        data,
         grid=grid,
         dims=dims,
         grid_bounds=grid_bounds,
