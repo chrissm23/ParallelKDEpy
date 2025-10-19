@@ -180,7 +180,9 @@ def initialize_dirac_sequence(
         method=method,
     ).to_numpy()
 
-    return dirac_sequences.transpose() if dirac_sequences.ndim > 1 else dirac_sequences
+    dirac_sequences = np.moveaxis(dirac_sequences, -1, 0)
+
+    return np.ascontiguousarray(dirac_sequences)
 
 
 def create_density_estimation(
@@ -218,4 +220,4 @@ def get_density(density_estimation, **kwargs) -> np.ndarray:
     density = jl.get_density(density_estimation, **kwargs)
     density_np = density.to_numpy()
 
-    return density_np.transpose() if density_np.ndim > 1 else density_np
+    return np.ascontiguousarray(density_np)
