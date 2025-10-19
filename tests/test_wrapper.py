@@ -13,7 +13,7 @@ def test_grid(generate_grid, n_dims, device):
     assert generate_grid.shape == (100,) * n_dims
 
     range_np = np.linspace(-1.0, 1.0, num=100)
-    mesh = np.meshgrid(*[range_np for _ in range(n_dims)])
+    mesh = np.meshgrid(*[range_np for _ in range(n_dims)], indexing="ij")
     grid_mesh = generate_grid.to_meshgrid()
     for i in range(n_dims):
         assert np.allclose(grid_mesh[i], mesh[i])
@@ -28,7 +28,7 @@ def test_grid(generate_grid, n_dims, device):
 
     grid_fft = generate_grid.fftgrid()
     fft_range = 2 * np.pi * np.fft.fftfreq(100, d=np.diff(range_np)[0])
-    mesh_fft = np.meshgrid(*[fft_range for _ in range(n_dims)])
+    mesh_fft = np.meshgrid(*[fft_range for _ in range(n_dims)], indexing="ij")
     grid_fft_mesh = grid_fft.to_meshgrid()
     for i in range(n_dims):
         assert np.allclose(grid_fft_mesh[i], mesh_fft[i])
