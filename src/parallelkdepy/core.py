@@ -85,9 +85,7 @@ def grid_device(grid_jl) -> str:
 def grid_coordinates(grid_jl) -> tuple[np.ndarray, ...]:
     coords_np = jl.get_coordinates(grid_jl).to_numpy()
 
-    return tuple(
-        np.ascontiguousarray(coords_np[i]) for i in range(coords_np.shape[0])[::-1]
-    )
+    return tuple(np.ascontiguousarray(coords_np[i]) for i in range(coords_np.shape[0]))
 
 
 def grid_step(grid_jl) -> list:
