@@ -36,7 +36,7 @@ import parallelkdepy as pkde
 data = np.random.randn(10000, 1)
 
 density_estimation = pkde.DensityEstimation(data, grid=True, device="cpu")
-density_estimation.estimate_density("parallelEstimator")
+density_estimation.estimate_density("gradepro")
 
 density estimated = density_estimation.get_density()
 ```
@@ -47,8 +47,8 @@ See the [documentation] for more details on how to use the package.
 
 Currently, there are two estimators available:
 
-- `"parallelEstimator"`: As described in [Sustay Martinez *et al.* (2025)], this estimator is designed for high-dimensional data and can be run on both CPU and GPU.
-- `"rotEstimator"`: Implements the rules of thumb (Silverman and Scott) for bandwidth selection. It makes use of some of the routines from `:parallelEstimator` to evaluate the density on a grid.
+- `"gradepro"`: As described in [Sustay Martinez *et al.* (2025)], this estimator is designed for high-dimensional data and can be run on both CPU and GPU.
+- `"rot"`: Implements the rules of thumb (Silverman and Scott) for bandwidth selection. It makes use of some of the routines from `:gradepro` to evaluate the density on a grid.
 
 ## Julia Package
 

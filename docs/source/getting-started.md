@@ -1,8 +1,8 @@
 # Getting Started
 
-Here, we will exemplify the basic usage of `ParallelKDEpy` with the core estimator `parallelEstimator`. For more details about the existing estimators, their parameters, as well as the more in-depth implementation details, please refer to the [ParallelKDE.jl documentation].
+Here, we will exemplify the basic usage of `ParallelKDEpy` with the core estimator `gradepro`. For more details about the existing estimators, their parameters, as well as the more in-depth implementation details, please refer to the [ParallelKDE.jl documentation].
 
-To estimate a density on CPU with a default grid using the `parallelEstimator`, you can use the following code:
+To estimate a density on CPU with a default grid using the `gradepro`, you can use the following code:
 
 ```{literalinclude} scripts/plot_kde.py
 :language: python

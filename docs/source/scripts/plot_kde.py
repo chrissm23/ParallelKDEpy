@@ -14,7 +14,7 @@ density_estimation = pkde.DensityEstimation(
     grid=True,
     device="cpu",
 )
-density_estimation.estimate_density("parallelEstimator")
+density_estimation.estimate_density("gradepro")
 
 density_estmated = density_estimation.get_density()
 grid_coordinates = density_estimation.generate_grid().to_meshgrid()[0]
