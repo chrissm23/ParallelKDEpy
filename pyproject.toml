@@ -42,7 +42,7 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^8.2"
-sphinx-multiversion = "^0.2.5"
+sphinx-multiversion = "^0.2.4"
 myst-parser = "^4.0"
 furo = "^2024.04"
 sphinx-autobuild = "^2024.10"
