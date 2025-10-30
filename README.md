@@ -57,3 +57,8 @@ Please keep in mind that this package is a wrapper around the Julia package [Par
 ## Citing
 
 Please cite the following papers when using ParallelKDEpy in your work:
+
+## Known Issues
+
+List of main known issues:
+- #5
