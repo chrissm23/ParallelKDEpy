@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "parallelkdepy"
-version = "1.0.0-alpha.1"                                   # bump this on each release
+version = "1.0.0-beta.1"                                    # bump this on each release
 description = "Python wrapper of ParallelKDE.jl"
 authors = ["Christian Sustay <christian.sustay@tum.de>"]
 license = "MIT"                                             # or whichever license you chose
@@ -19,9 +19,6 @@ numpy = "^2.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3"
 pytest-cov = "^6.1"
-
-# [tool.poetry.scripts]
-# parallelkde = "parallelkdepy.cli:main" # if you provide a console entry point (optional)
 
 [build-system]
 requires = ["poetry-core>=1.5.0"]
