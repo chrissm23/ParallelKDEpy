@@ -61,4 +61,4 @@ Please cite the following papers when using ParallelKDEpy in your work:
 ## Known Issues
 
 List of main known issues:
-- #5
+- [Issue #5](https://github.com/chrissm23/ParallelKDEpy/issues/5): Segmentation faults for CUDA implementations
