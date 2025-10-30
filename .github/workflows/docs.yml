@@ -46,13 +46,13 @@ jobs:
           if [ -n "${{ steps.stable.outputs.latest }}" ]; then
             echo "Building dev and ${{ steps.stable.outputs.latest }}"
             poetry run sphinx-multiversion docs/source docs/build/html \
-              -D smv_tag_whitelist="^${{ steps.stable.outputs.latest }}$" \
-              -D smv_branch_whitelist="^(dev)$"
+              -D 'smv_tag_whitelist="^${{ steps.stable.outputs.latest }}$"' \
+              -D 'smv_branch_whitelist="^(dev)$"'
           else
             echo "No stable tag found; building dev only"
             poetry run sphinx-multiversion docs/source docs/build/html \
-              -D smv_tag_whitelist="^$" \
-              -D smv_branch_whitelist="^(dev)$"
+              -D 'smv_tag_whitelist="^$"' \
+              -D 'smv_branch_whitelist="^(dev)$"'
           fi
       - name: Create 'stable' alias and root redirect
         shell: bash
