@@ -17,20 +17,20 @@ jobs:
     steps:
       - name: Checkout ParallelKDEpy
         uses: actions/checkout@v4
-
-      - name: Checkout ParallelKDE (julia)
-        uses: actions/checkout@v4
-        with:
-          repository: chrissm23/ParallelKDE.jl
-          token: ${{ secrets.PARALLELKDE_TOKEN }}
-          path: parallelkde
-
-      # 1️⃣ Install Julia
-      - name: Setup Julia
-        uses: julia-actions/setup-julia@v2
-        with:
-          version: "1.11" # match the version ParallelKDE.jl supports
-
+      #
+      # - name: Checkout ParallelKDE (julia)
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: chrissm23/ParallelKDE.jl
+      #     token: ${{ secrets.PARALLELKDE_TOKEN }}
+      #     path: parallelkde
+      #
+      # # 1️⃣ Install Julia
+      # - name: Setup Julia
+      #   uses: julia-actions/setup-julia@v2
+      #   with:
+      #     version: "1" # match the version ParallelKDE.jl supports
+      #
       # 2️⃣ Setup Python
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
