@@ -16,4 +16,4 @@ To estimate a density on CPU with a default grid using the `gradepro`, you can u
 :width: 600
 ```
 
-That's it! See the {section}`api` for more details on the available methods and parameters.
+That's it! See the {doc}`api` for more details on the available methods and parameters.
