@@ -1,3 +1,4 @@
+(api)=
 # API Reference
 
 This section provides an overview of the API of [ParallelKDEpy](https://github.com/chrissm23/ParallelKDE) as well as other tools avaiable in the package. For more detailed information, please refer to the documentation of [ParallelKDE.jl](https://github.com/chrissm23/ParallelKDE.jl).

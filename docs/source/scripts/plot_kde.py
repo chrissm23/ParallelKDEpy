@@ -1,4 +1,5 @@
 import matplotlib
+from pathlib import Path
 
 matplotlib.use("Agg")  # Use a non-interactive backend for plotting
 
@@ -31,8 +32,6 @@ plt.ylabel("Density")
 plt.legend()
 plt.grid()
 # [docs-end]
-
-from pathlib import Path
 
 out = (
     Path(__file__).resolve().parents[1] / "_static" / "figures" / "getting-started.png"
