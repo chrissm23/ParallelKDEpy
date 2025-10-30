@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
+    "sphinx_multiversion",
     "auto_examples",
 ]
 
@@ -69,3 +70,9 @@ napoleon_attr_annotations = True
 html_theme = "furo"
 html_static_path = ["_static"]
 html_logo = "_static/logo.png"
+
+# -- sphinx-multiversion configuration ---------------------------------------
+smv_branch_whitelist = r"^(dev)$"
+smv_tag_whitelist = r"^v\d+\.\d+\.\d+$"
+smv_released_pattern = r"^tags/v\d+\.\d+\.\d+$"
+smv_outputdir_format = "{ref.name}"
