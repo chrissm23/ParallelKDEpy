@@ -27,6 +27,10 @@ jobs:
         with:
           fetch-depth: 0 # SMV needs full history/tags
 
+      - name: Fetch all tags and branches
+        run: |
+          git fetch --force --tags
+          git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
