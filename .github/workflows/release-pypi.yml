@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0 # ensure VCS tags are visible to the build (for dynamic versioning)
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.x"
       - name: Build (PEP 517)
@@ -53,7 +53,7 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.x"
       - name: Install from PyPI
