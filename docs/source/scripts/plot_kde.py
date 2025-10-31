@@ -17,7 +17,7 @@ density_estimation = pkde.DensityEstimation(
 )
 density_estimation.estimate_density("gradepro")
 
-density_estmated = density_estimation.get_density()
+density_estimated = density_estimation.get_density()
 grid_coordinates = density_estimation.generate_grid().to_meshgrid()[0]
 
 # Evaluate true density for comparison
@@ -25,7 +25,7 @@ density_true = np.exp(-0.5 * grid_coordinates**2) / np.sqrt(2 * np.pi)
 
 plt.plot(grid_coordinates, density_true, label="True Density", lw=2, c="cornflowerblue")
 plt.plot(
-    grid_coordinates, density_estmated, label="Estimated Density", lw=2, c="firebrick"
+    grid_coordinates, density_estimated, label="Estimated Density", lw=2, c="firebrick"
 )
 plt.xlabel("Random Variable")
 plt.ylabel("Density")

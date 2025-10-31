@@ -12,4 +12,4 @@ or
 poetry add parallelkdepy
 ```
 
-The wrapper will handle installing Julia and ParallelKDE.jl the first time you import it. No additional setup is required.
+The wrapper will handle installing `Julia` and `ParallelKDE.jl` the first time you import it. No additional setup is required.
