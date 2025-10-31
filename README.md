@@ -41,13 +41,13 @@ density_estimation.estimate_density("gradepro")
 density estimated = density_estimation.get_density()
 ```
 
-See the [documentation] for more details on how to use the package.
+See the [documentation](https://chrissm23.github.io/ParallelKDEpy) for more details on how to use the package.
 
 ## Features
 
 Currently, there are two estimators available:
 
-- `"gradepro"`: As described in [Sustay Martinez *et al.* (2025)], this estimator is designed for high-dimensional data and can be run on both CPU and GPU.
+- `"gradepro"`: As described in [Sustay Martinez et al. (2025)], this estimator is designed for high-dimensional data and can be run on both CPU and GPU.
 - `"rot"`: Implements the rules of thumb (Silverman and Scott) for bandwidth selection. It makes use of some of the routines from `:gradepro` to evaluate the density on a grid.
 
 ## Julia Package
@@ -61,4 +61,5 @@ Please cite the following papers when using ParallelKDEpy in your work:
 ## Known Issues
 
 List of main known issues:
+
 - [Issue #5](https://github.com/chrissm23/ParallelKDEpy/issues/5): Segmentation faults for CUDA implementations
