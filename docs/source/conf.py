@@ -2,6 +2,33 @@
 
 import os
 import sys
+import subprocess
+
+# Defaults
+release = version = "dev"
+
+# Get version from SMV
+smv_name = os.environ.get("SPHINX_MULTIVERSION_NAME")
+if smv_name:
+    if smv_name.startswith("v") and "-" not in smv_name:
+        parsed = smv_name.lstrip("v")
+        release = parsed
+        version = ".".join(parsed.split(".")[:2])
+    else:
+        release = version = "dev"
+
+# Fallback when not using SMV
+if not smv_name:
+    try:
+        tag = subprocess.check_output(
+            ["git", "describe", "--tags", "--abbrev=0"], text=True
+        ).strip()
+        if tag.startswith("v") and "-" not in tag:
+            parsed = tag.lstrip("v")
+            release = parsed
+            version = ".".join(parsed.split(".")[:2])
+    except Exception:
+        pass
 
 sys.path.insert(0, os.path.abspath("../../src"))
 sys.path.append(os.path.abspath("_ext"))
