@@ -39,7 +39,7 @@ sys.path.append(os.path.abspath("_ext"))
 project = "ParallelKDEpy"
 copyright = "2025, Christian Sustay Martinez"
 author = "Christian Sustay Martinez"
-release = "1.0.0-beta.1"
+# release = "1.0.0-beta.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
