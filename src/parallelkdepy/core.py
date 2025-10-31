@@ -49,7 +49,10 @@ def create_grid(ranges: Sequence, device: str = "cpu", b32: Optional[bool] = Non
         The device type, e.g., 'cpu' or 'cuda'. Default is 'cpu'.
     b32 : Optional[bool], optional
         Whether to use 32-bit precision for GPU devices.
-        Default is None, which uses 32-bit precision if the device is 'cuda'.
+        Default is None, which behaves as True (32-bit precision) if the device is 'cuda'.
+        Setting it as False for 'cuda' devices will use 64-bit precision. This keyword
+        argument is ignored when device is 'cpu'.
+
     Returns
     -------
     juliacall.AnyValue
@@ -63,7 +66,7 @@ def create_grid(ranges: Sequence, device: str = "cpu", b32: Optional[bool] = Non
     b32 = b32 if b32 is not None else (device != "cpu")
 
     if device == "cpu":
-        grid = jl.initialize_grid(*ranges)
+        grid = jl.initialize_grid(*ranges, b32=b32)
     else:
         grid = jl.initialize_grid(*ranges, device=str_to_symbol(device), b32=b32)
 
