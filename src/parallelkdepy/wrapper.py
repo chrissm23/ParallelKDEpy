@@ -13,7 +13,7 @@ core._init_julia()
 
 class Grid:
     """
-    Higer level implementation of a grid to use over meshgrid.
+    Higher level implementation of a grid to use over meshgrid.
     """
 
     def __init__(
