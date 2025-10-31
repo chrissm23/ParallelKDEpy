@@ -66,7 +66,7 @@ jobs:
           import importlib, os
           pkg = os.environ.get("PACKAGE_NAME")
           try:
-            mod = importlib.import_module(pkg.replace('-', '_'))
+            mod = importlib.import_module(pkg.replace('-', '_').lower())
           except ModuleNotFoundError:
             mod = importlib.import_module(pkg)
           print("Imported:", mod.__name__)
