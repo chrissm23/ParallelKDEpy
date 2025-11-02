@@ -72,7 +72,7 @@ jobs:
           fi
           cat > index.html <<'HTML'
           <!doctype html><meta charset="utf-8">
-          <meta http-eqiv="refresh" content="0; url=./stable/">
+          <meta http-equiv="refresh" content="0; url=./stable/">
           <title>Redirecting to stable docs...</title>
           <a href="./stable/">Click here if you're not redirected.</a>
           HTML

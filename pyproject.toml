@@ -18,11 +18,15 @@ include = [
 
 [tool.poetry-dynamic-versioning]
 enable = true
+fix-shallow-repository = true
+
+[tool.poetry-dynamic-versioning.substitutions]
+folders = [{ path = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.12"   # minimum supported Python version
+python = "^3.10"   # minimum supported Python version
 juliacall = "^0.9"
-numpy = "^2.2"
+numpy = "^2.0"
 # any other runtime deps here
 
 [tool.poetry.group.dev.dependencies]

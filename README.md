@@ -1,7 +1,7 @@
 # ParallelKDEpy: Python wrapper for ParallelKDE.jl
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://chrissm23.github.io/ParallelKDEpy/stable/)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://chrissm23.github.io/ParallelKDE.jl/dev/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://chrissm23.github.io/ParallelKDEpy/dev/)
 [![Build Status](https://github.com/chrissm23/ParallelKDEpy/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrissm23/ParallelKDEpy/actions/workflows/ci.yml?query=branch%3Amain)
 
 High performance implementation of a parallel kernel density estimation algorithm described in [Sustay Martinez *et al.* (2025)]. The algorithm is specially suited for high-dimensional data, with CPU/CUDA support.

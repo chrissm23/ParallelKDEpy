@@ -97,6 +97,16 @@ napoleon_attr_annotations = True
 html_theme = "furo"
 html_static_path = ["_static"]
 html_logo = "_static/logo.png"
+html_sidebars = {
+    "**": [
+        "sidebar/brand.html",
+        "sidebar/search.html",
+        "sidebar/scroll-start.html",
+        "sidebar/navigation.html",
+        "versioning.html",
+        "sidebar/scroll-end.html",
+    ]
+}
 
 # -- sphinx-multiversion configuration ---------------------------------------
 smv_branch_whitelist = r"^(dev)$"
