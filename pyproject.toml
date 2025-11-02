@@ -20,7 +20,7 @@ include = [
 enable = true
 fix-shallow-repository = true
 
-[tool.poetry-dynamic-versioning.substitutions]
+[tool.poetry-dynamic-versioning.substitution]
 folders = [{ path = "src" }]
 
 [tool.poetry.dependencies]
