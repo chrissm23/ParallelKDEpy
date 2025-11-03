@@ -18,12 +18,6 @@ High performance implementation of a parallel kernel density estimation algorith
 pip install parallelkdypy
 ```
 
-or
-
-```bash
-poetry add parallelkdepy
-```
-
 The wrapper will handle installing `Julia` and `ParallelKDE.jl` the first time you import it. No additional setup is required.
 
 ## Quick Start
