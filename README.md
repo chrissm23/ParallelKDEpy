@@ -1,3 +1,5 @@
+![ParallelKDEpy Logo](docs/source/_static/logo.png)
+
 # ParallelKDEpy: Python wrapper for ParallelKDE.jl
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://chrissm23.github.io/ParallelKDEpy/stable/)
