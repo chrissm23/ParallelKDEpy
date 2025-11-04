@@ -85,7 +85,7 @@ class Grid:
 
     def upper_bounds(self) -> list:
         """
-        List of lower bounds for each dimension of the grid.
+        List of upper bounds for each dimension of the grid.
         """
         return [hb for _, hb in self.bounds()]
 
