@@ -3,7 +3,6 @@ Low-level plumbing: Manage Julia session and interfacing between Python and Juli
 """
 
 from typing import Sequence, Optional
-import time
 
 import numpy as np
 
