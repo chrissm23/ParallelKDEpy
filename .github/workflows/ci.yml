@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout ParallelKDEpy
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # 2️⃣ Setup Python
       - name: Setup Python ${{ matrix.python-version }}
