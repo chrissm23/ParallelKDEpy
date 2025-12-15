@@ -40,13 +40,13 @@ jobs:
 
       # 6️⃣ Upload coverage
       - name: Upload HTML coverage report
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-html
           path: htmlcov
 
       - name: Upload coverage report XML
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-xml
           path: coverage.xml
